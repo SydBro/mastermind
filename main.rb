@@ -29,13 +29,17 @@ class Game
   end
 
   def check_placement(code, guess)
+    guess_arr = guess.split("")
     guess.each_char.with_index do |digit, d_i|
-      #if the code at each index is the same, counter goes up by 1
-      if digit == code[d_i]
+      if guess_arr[d_i] == code[d_i]
         @correct_place_counter += 1
+        guess_arr.delete_at(d_i)
+        guess_arr.insert(d_i, "_")
       end
+    end
 
-      if (guess.include?(code[d_i]) && digit != code[d_i])
+    guess_arr.each_with_index do |a, ai|
+      if code.include?(a)
         @wrong_place_counter += 1
       end
     end
