@@ -11,7 +11,8 @@ class Game
     @maker = Codemaker.new
     @breaker = Codebreaker.new(gets.chomp)
     @correct_place_counter = 0
-    @correct_number_counter = 0
+    @wrong_place_counter = 0
+    @multiple_of_same_num = 0
     @tries_left = 11
   end
 
@@ -28,27 +29,25 @@ class Game
   end
 
   def check_placement(code, guess)
-    unique = code.split("").uniq
     guess.each_char.with_index do |digit, d_i|
+      #if the code at each index is the same, counter goes up by 1
       if digit == code[d_i]
         @correct_place_counter += 1
       end
-    end
 
-    unique.each_with_index do |digit, u_i|
-      if guess.include?(unique[u_i])
-        @correct_number_counter += 1
+      if (guess.include?(code[d_i]) && digit != code[d_i])
+        @wrong_place_counter += 1
       end
     end
 
     if guess != code
-      if (@correct_number_counter - @correct_place_counter) > 0
-        puts "#{@correct_number_counter - @correct_place_counter} number(s) are in the code, but in the wrong spot."
+      if (@wrong_place_counter) > 0
+        puts "#{@wrong_place_counter} number(s) are in the code, but in the wrong spot."
       end
       if @correct_place_counter > 0
         puts "#{@correct_place_counter} number(s) are in the correct spot."
       end
-      if @correct_number_counter == 0 && @correct_place_counter == 0
+      if @wrong_place_counter == 0 && @correct_place_counter == 0
         puts "Sorry, none of the numbers in your guess are in the code."
       end
       puts "Try again!"
@@ -57,7 +56,7 @@ class Game
       @breaker.guess = gets.chomp
       puts "The number you guessed is #{@breaker.guess}."
       @correct_place_counter = 0
-      @correct_number_counter = 0
+      @wrong_place_counter = 0
     end
   end
 end
