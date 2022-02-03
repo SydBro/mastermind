@@ -30,7 +30,7 @@ class Game
 
   def check_placement(code, guess)
     guess_arr = guess.split("")
-    #code_arr = code.split("")
+    code_arr = code.split("")
     correct_guess = []
     wrong_guess = []
     guess.each_char.with_index do |digit, d_i|
@@ -40,8 +40,8 @@ class Game
         wrong_guess.push("_")
         guess_arr.delete_at(d_i)
         guess_arr.insert(d_i, "_")
-        #code_arr.delete_at(d_i)
-        #code_arr.insert(d_i, "_")
+        code_arr.delete_at(d_i)
+        code_arr.insert(d_i, "_")
       else
         wrong_guess.push(guess_arr[d_i])
         correct_guess.push("_")
@@ -50,7 +50,7 @@ class Game
 
     guess_arr.each_with_index do |a, ai|
       unless correct_guess.include?(a)
-        if code.include?(a)
+        if code_arr.include?(a)
           @wrong_place_counter += 1
         end
       end
@@ -60,7 +60,7 @@ class Game
       puts "Your guess was #{@breaker.guess}."
       puts "The correct numbers in your guess are: " + correct_guess.join + "."
       if (@wrong_place_counter) > 0
-        puts "You guessed #{@wrong_place_counter} number(s) correctly, but it's in a different spot."
+        puts "You guessed #{@wrong_place_counter} number(s) correctly, but they're in a different spot."
       end
       #if @correct_place_counter > 0
         #puts "#{@correct_place_counter} number(s) are in the correct spot."
